@@ -17,6 +17,7 @@
 		722745F123633B1700C3E6C3 /* WeatherDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722745F023633B1700C3E6C3 /* WeatherDataModel.swift */; };
 		722745F323633B2900C3E6C3 /* TranslateDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722745F223633B2900C3E6C3 /* TranslateDataModel.swift */; };
 		722745F523633B3E00C3E6C3 /* CurrencyDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722745F423633B3E00C3E6C3 /* CurrencyDataModel.swift */; };
+		722745F72363422600C3E6C3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722745F62363422600C3E6C3 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		722745F023633B1700C3E6C3 /* WeatherDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDataModel.swift; sourceTree = "<group>"; };
 		722745F223633B2900C3E6C3 /* TranslateDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateDataModel.swift; sourceTree = "<group>"; };
 		722745F423633B3E00C3E6C3 /* CurrencyDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyDataModel.swift; sourceTree = "<group>"; };
+		722745F62363422600C3E6C3 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			children = (
 				722745D42363326200C3E6C3 /* AppDelegate.swift */,
 				722745DD2363326600C3E6C3 /* Assets.xcassets */,
+				722745F62363422600C3E6C3 /* SceneDelegate.swift */,
 				722745DF2363326600C3E6C3 /* LaunchScreen.storyboard */,
 				722745E22363326600C3E6C3 /* Info.plist */,
 			);
@@ -189,6 +192,7 @@
 				722745F523633B3E00C3E6C3 /* CurrencyDataModel.swift in Sources */,
 				722745D52363326200C3E6C3 /* AppDelegate.swift in Sources */,
 				722745EB2363389100C3E6C3 /* CurrencyViewController.swift in Sources */,
+				722745F72363422600C3E6C3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
