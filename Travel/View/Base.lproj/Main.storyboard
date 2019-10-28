@@ -77,7 +77,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="APr-Ry-gBU"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Weather" selectedImage="Cloud-Refresh" id="uWj-Nj-oHQ"/>
+                    <tabBarItem key="tabBarItem" title="Weather" image="Cloud-Refresh" id="uWj-Nj-oHQ"/>
                     <navigationItem key="navigationItem" id="tk9-f3-bXd"/>
                     <connections>
                         <outlet property="cityLabel" destination="YNC-j5-dox" id="WT9-n7-ugd"/>
@@ -97,10 +97,10 @@
                     <view key="view" contentMode="scaleToFill" id="I9f-z8-wzL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="R9x-Qv-1OG"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Currency" id="C1A-st-PIN"/>
+                    <tabBarItem key="tabBarItem" title="Currency" image="dollar" id="C1A-st-PIN"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Xq-JL-imE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -113,10 +113,10 @@
                     <view key="view" contentMode="scaleToFill" id="wG9-qc-W65">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="Lz9-W0-JBw"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Translate" selectedImage="dunno" id="Pj1-Uh-oAW"/>
+                    <tabBarItem key="tabBarItem" title="Translate" image="dunno" id="Pj1-Uh-oAW"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4nE-4k-Ofv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -130,11 +130,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.0" green="0.69019607839999997" blue="0.41960784309999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="RIT-pW-5au" kind="relationship" relationship="viewControllers" id="rz0-wF-qRr"/>
-                        <segue destination="Oy2-5b-ZFn" kind="relationship" relationship="viewControllers" id="fX9-3Y-zn2"/>
                         <segue destination="oxJ-1E-wuf" kind="relationship" relationship="viewControllers" id="5oF-Sl-Gwy"/>
+                        <segue destination="Oy2-5b-ZFn" kind="relationship" relationship="viewControllers" id="fX9-3Y-zn2"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="boy-0R-9Gr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -144,6 +145,7 @@
     </scenes>
     <resources>
         <image name="Cloud-Refresh" width="44" height="41.5"/>
+        <image name="dollar" width="14" height="24"/>
         <image name="dunno" width="64" height="64"/>
         <image name="location_icon" width="17" height="21"/>
         <image name="searchbutton" width="18" height="18"/>
