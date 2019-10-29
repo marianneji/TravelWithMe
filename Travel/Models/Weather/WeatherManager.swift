@@ -12,7 +12,7 @@ import CoreLocation
 //MARK: - Protocols
 protocol WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
-    func didFailWithError(_ error: Error, message: String)
+    func didFailWithError(message: String)
 }
 
 class WeatherManager {
@@ -23,40 +23,68 @@ class WeatherManager {
     private let api = Apikey()
     var delegate: WeatherManagerDelegate?
     private var task: URLSessionDataTask?
-    private var session = URLSession(configuration: .default)
-    init(session: URLSession) {
-        self.session = session
+    private var weatherSession = URLSession(configuration: .default)
+    init(weatherSession: URLSession) {
+        self.weatherSession = weatherSession
     }
-    
-
     private static let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&units=metric&appid="
 
-    func getCity(city: String) {
+    func getCity(city: String, callback: @escaping (Bool, WeatherModel?) -> Void) {
         let urlString = "\(WeatherManager.weatherURL)\(api.weatherApiKey)&q=\(city)"
         print(urlString)
-        performRequest(with: urlString)
-    }
+        task?.cancel()
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
 
-    func getCurrentLocationWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-        let urlString = "\(WeatherManager.weatherURL)\(api.weatherApiKey)&lat=\(latitude)&lon=\(longitude)"
-        performRequest(with: urlString)
-    }
-
-    func performRequest(with url: String) {
-        if let url = URL(string: url) {
-            task?.cancel()
-            task = self.session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                }
-                if let safeData = data {
-                    if let weather = self.parseJson(safeData) {
-                        self.delegate?.didUpdateWeather(self, weather: weather)
+            task = self.weatherSession.dataTask(with: request) { (data, response, error) in
+                DispatchQueue.main.async {
+                   guard let data = data, error == nil else {
+                        callback(false, nil)
+                        return
+                    }
+                    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                        callback(false, nil)
+                        return
+                    }
+                    guard let weather = self.parseJson(data) else {
+                        callback(false, nil)
+                        return
+                    }
+                    self.delegate?.didUpdateWeather(self, weather: weather)
+                    callback(true, weather)
                     }
                 }
             }
             task?.resume()
         }
+
+
+
+    func getCurrentLocationWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees, callback: @escaping (Bool, WeatherModel?) -> Void) {
+        let urlString = "\(WeatherManager.weatherURL)\(api.weatherApiKey)&lat=\(latitude)&lon=\(longitude)"
+       if let url = URL(string: urlString) {
+                    let request = URLRequest(url: url)
+
+                    task = self.weatherSession.dataTask(with: request) { (data, response, error) in
+                        DispatchQueue.main.async {
+                           guard let data = data, error == nil else {
+                                callback(false, nil)
+                                return
+                            }
+                            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                                callback(false, nil)
+                                return
+                            }
+                            guard let weather = self.parseJson(data) else {
+                                callback(false, nil)
+                                return
+                            }
+                            self.delegate?.didUpdateWeather(self, weather: weather)
+                            callback(true, weather)
+                            }
+                        }
+                    }
+                    task?.resume()
     }
 
     func parseJson(_ weatherData: Data) -> WeatherModel? {
@@ -71,9 +99,56 @@ class WeatherManager {
             let weather = WeatherModel(temperature: temp, condition: id, cityName: name)
             return weather
         } catch {
-            delegate?.didFailWithError(error, message: "We didn't get the datas from the server")
+            delegate?.didFailWithError(message: "We didn't get the datas from the server")
             return nil
         }
     }
     
 }
+//func getCity(city: String) {
+//    let urlString = "\(WeatherManager.weatherURL)\(api.weatherApiKey)&q=\(city)"
+//    print(urlString)
+//    performRequest(with: urlString) { (success, weatherModel) in
+//        if success {
+//
+//        } else {
+//
+//        }
+//
+//    }
+//}
+//
+//func getCurrentLocationWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+//    let urlString = "\(WeatherManager.weatherURL)\(api.weatherApiKey)&lat=\(latitude)&lon=\(longitude)"
+//    performRequest(with: urlString) { (success, weatherModel) in
+//        if success {
+//
+//        } else {
+//
+//        }
+//
+//    }
+//}
+//
+//func performRequest(with url: String, callback: @escaping (Bool, WeatherModel?) -> Void) {
+//    if let url = URL(string: url) {
+//        task?.cancel()
+//        task = self.weatherSession.dataTask(with: url) { (data, response, error) in
+//            guard let data = data, error == nil else {
+//                callback(false, nil)
+//                return
+//            }
+//            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+//                callback(false, nil)
+//                return
+//            }
+//            guard let weather = self.parseJson(data) else {
+//                callback(false, nil)
+//                return
+//            }
+//            self.delegate?.didUpdateWeather(self, weather: weather)
+//            callback(true, weather)
+//        }
+//    }
+//    task?.resume()
+//}
