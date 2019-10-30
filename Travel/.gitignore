@@ -6,7 +6,7 @@
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
-ApiKey.swift
+ApiKey.swift/
 
 ## Build generated
 build/
