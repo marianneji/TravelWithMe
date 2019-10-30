@@ -46,7 +46,7 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         
-            self.temperatureLabel.text = weather.tempString
+            self.temperatureLabel.text = "\(weather.tempString)°C"
             self.cityLabel.text = weather.cityName
             self.weatherConditionImageView.image = UIImage(named: weather.conditionName)
 
