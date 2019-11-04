@@ -12,11 +12,15 @@ import CoreLocation
 class WeatherViewController: UIViewController {
 
     //MARK: - Outlets
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var weatherConditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-
+    @IBOutlet weak var currentCityLabel: UILabel!
+    @IBOutlet weak var currentWeatherConditionView: UIImageView!
+    
+    @IBOutlet weak var currentTempLabel: UILabel!
     //MARK: - Properties
     let locationManager = CLLocationManager()
     var weatherManager = WeatherManager.shared
@@ -29,6 +33,19 @@ class WeatherViewController: UIViewController {
         WeatherManager.shared.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+        loadWeatherForNY()
+    }
+
+    func loadWeatherForNY() {
+        WeatherManager.shared.getCity(city: "new%20york") { (success, weather) in
+            self.toggleActivityIndicator(shown: true)
+            if success, let weather = weather {
+                self.toggleActivityIndicator(shown: false)
+                self.didUpdateWeather(self.weatherManager, weather: weather)
+            } else {
+                self.didFailWithError(message: "We couldn't get the weather from NYC")
+            }
+        }
     }
 
 
@@ -49,7 +66,11 @@ extension WeatherViewController: WeatherManagerDelegate {
             self.temperatureLabel.text = "\(weather.tempString)°C"
             self.cityLabel.text = weather.cityName
             self.weatherConditionImageView.image = UIImage(named: weather.conditionName)
-
+    }
+    func didUpdateCurrentWeather(_ weatherManager: WeatherManager, currentWeather: CurrentWeatherModel) {
+        self.currentCityLabel.text = currentWeather.currentCity
+        self.currentTempLabel.text = "\(currentWeather.tempString)°C"
+        self.currentWeatherConditionView.image = UIImage(named: currentWeather.conditionName)
     }
 
     func didFailWithError(message: String) {
@@ -64,7 +85,9 @@ extension WeatherViewController: WeatherManagerDelegate {
 extension WeatherViewController: UITextFieldDelegate  {
     func textFieldDidEndEditing(_ textField: UITextField) {
         WeatherManager.shared.getCity(city: cityTextField.text!) { (success, weather) in
+            self.toggleActivityIndicator(shown: true)
             if success, let weather = weather {
+                self.toggleActivityIndicator(shown: false)
                 self.didUpdateWeather(self.weatherManager, weather: weather)
             } else {
                 self.didFailWithError(message: "We didn't find the city you're looking for")
@@ -93,8 +116,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
             let lon = location.coordinate.longitude
 
             WeatherManager.shared.getCurrentLocationWeather(latitude: lat, longitude: lon) { (success, weather) in
+                self.toggleActivityIndicator(shown: true)
                 if success, let weather = weather {
-                    self.didUpdateWeather(self.weatherManager, weather: weather)
+                    self.toggleActivityIndicator(shown: false)
+                    self.didUpdateCurrentWeather(self.weatherManager, currentWeather: weather)
                 } else {
                     self.didFailWithError(message: "We didn't get your current location")
                 }
@@ -104,6 +129,15 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         didFailWithError(message: "We didn't get your location")
+    }
+    fileprivate func toggleActivityIndicator(shown: Bool) {
+        activityIndicator.isHidden = !shown
+        currentTempLabel.isHidden = shown
+        currentCityLabel.isHidden = shown
+        currentWeatherConditionView.isHidden = shown
+        temperatureLabel.isHidden = shown
+        cityLabel.isHidden = shown
+        weatherConditionImageView.isHidden = shown
     }
 }
 
