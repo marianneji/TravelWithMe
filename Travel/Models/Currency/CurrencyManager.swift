@@ -16,7 +16,7 @@ protocol CurrencyManagerDelagate {
 class CurrencyManager {
     static var shared = CurrencyManager()
     private init() {}
-    private let api = Apikey()
+    private let apiKey = Apikeys.valueForAPIKey(named: "fixerApiKey")
 
     private static let currencyUrl = "http://data.fixer.io/api/latest?"
     private let symbol = "&symbols=USD"
@@ -30,7 +30,7 @@ class CurrencyManager {
     }
 
     func getCurrencyExchangeRate(callback: @escaping (Bool, CurrencyModel?) -> Void) {
-        let urlString = "\(CurrencyManager.currencyUrl)\(api.fixerApiKey)\(symbol)"
+        let urlString = "\(CurrencyManager.currencyUrl)\(apiKey)\(symbol)"
         task?.cancel()
         if let url = URL(string: urlString) {
             let request = URLRequest(url: url)

@@ -142,8 +142,6 @@
 				722745EC236338AA00C3E6C3 /* Controllers */,
 				722745ED236338C300C3E6C3 /* View */,
 				722745EF236338E400C3E6C3 /* SupportingFiles */,
-				72D17EEB2369DA9900D5820C /* ApiKeys.swift */,
-				7263D8F1237063F200F6F366 /* ApiKeys.plist */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
@@ -179,6 +177,8 @@
 		722745EF236338E400C3E6C3 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				72D17EEB2369DA9900D5820C /* ApiKeys.swift */,
+				7263D8F1237063F200F6F366 /* ApiKeys.plist */,
 				722745D42363326200C3E6C3 /* AppDelegate.swift */,
 				722745DD2363326600C3E6C3 /* Assets.xcassets */,
 				722745F62363422600C3E6C3 /* SceneDelegate.swift */,

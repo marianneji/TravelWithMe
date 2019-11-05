@@ -20,6 +20,18 @@ class CurrencyModel {
         self.dollarRate = dollarRate
     }
 
+    var dateFormatted: String {
+        let dateFormatterGet = DateFormatter()
+        dateFormatterGet.dateFormat = "yyyy-MM-dd"
+
+        let dateFormatterPrint = DateFormatter()
+        dateFormatterPrint.dateFormat = "dd MMM, yyyy"
+
+        let dateString: NSDate? = dateFormatterGet.date(from: date) as NSDate?
+        print(dateFormatterPrint.string(from: dateString! as Date))
+        return (dateFormatterPrint.string(from: dateString! as Date))
+    }
+
     var returnRateValue: String {
         return String(format: "%.2f", dollarRate)
     }

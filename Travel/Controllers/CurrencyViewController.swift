@@ -44,7 +44,7 @@ class CurrencyViewController: UIViewController {
 extension CurrencyViewController: CurrencyManagerDelagate {
 
     func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel) {
-        dateLabel.text = currency.date
+        dateLabel.text = currency.dateFormatted
         rateBaseEuroLabel.text = "1€ = \(currency.returnRateValue)$"
         dollarRate = currency.dollarRate
         euroRate = 1.0 / currency.dollarRate
@@ -93,6 +93,7 @@ extension CurrencyViewController {
                 self.didUpdateCurrencyRates(self.currencyManager, currency: currency)
             } else {
                 self.didFailWithError(message: "We couldn't reach the server, please refresh")
+
             }
         }
     }
