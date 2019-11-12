@@ -20,19 +20,23 @@ class WeatherManager {
     //MARK: - Singleton
     static var shared = WeatherManager()
     private init() {}
+
     //MARK: - Instanciations
     private let apiKey = Apikeys.valueForAPIKey(named: "weatherApiKey")
+
     var delegate: WeatherManagerDelegate?
+
     private var task: URLSessionDataTask?
     private var weatherSession = URLSession(configuration: .default)
+
     init(weatherSession: URLSession) {
         self.weatherSession = weatherSession
     }
+
     private static let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&units=metric&appid="
 
     func getCity(city: String, callback: @escaping (Bool, WeatherModel?) -> Void) {
         var urlString = "\(WeatherManager.weatherURL)\(apiKey)&q=\(city)"
-
 
         if urlString.contains(" ") {
             urlString = urlString.replacingOccurrences(of: " ", with: "%20")
@@ -99,7 +103,6 @@ class WeatherManager {
             let name = decodeData.name
             let temp = decodeData.main.temp
 
-
             let weather = WeatherModel(temperature: temp, condition: id, cityName: name)
             return weather
         } catch {
@@ -116,7 +119,6 @@ class WeatherManager {
             let name = decodeData.name
             let temp = decodeData.main.temp
 
-
             let currentWeather = CurrentWeatherModel(currentTemp: temp, currentCity: name, currentConditions: id)
             return currentWeather
         } catch {
@@ -124,6 +126,5 @@ class WeatherManager {
             return nil
         }
     }
-    
 }
 
