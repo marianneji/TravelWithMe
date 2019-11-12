@@ -11,7 +11,7 @@ import Foundation
 struct Apikeys {
     static func valueForAPIKey(named keyname:String) -> String {
         guard let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist") else { return "nil"}
-        let plist = NSDictionary(contentsOfFile:filePath)
+        let plist = NSDictionary(contentsOfFile: filePath)
         let value = plist?.object(forKey: keyname) as! String
         return value
     }

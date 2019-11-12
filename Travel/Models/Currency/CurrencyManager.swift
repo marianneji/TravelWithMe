@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CurrencyManagerDelagate {
+protocol CurrencyManagerDelegate {
     func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel)
     func didFailWithError(message: String)
 }

@@ -32,6 +32,9 @@
 		7284B03B23679A8C0031D8FB /* Weather.json in Resources */ = {isa = PBXBuildFile; fileRef = 7284B03A23679A8C0031D8FB /* Weather.json */; };
 		7284B03D23679DA60031D8FB /* WeatherFakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7284B03C23679DA60031D8FB /* WeatherFakeResponseData.swift */; };
 		7284B03F2367A2E50031D8FB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7284B03E2367A2E50031D8FB /* .gitignore */; };
+		72B068E6237464B5007DE8AE /* Translate.json in Resources */ = {isa = PBXBuildFile; fileRef = 72B068E5237464B5007DE8AE /* Translate.json */; };
+		72B068E9237465EF007DE8AE /* TranslateFakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B068E8237465EF007DE8AE /* TranslateFakeResponseData.swift */; };
+		72B068EB2374666C007DE8AE /* TranslateTestsCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72B068EA2374666C007DE8AE /* TranslateTestsCase.swift */; };
 		72D17EEC2369DA9900D5820C /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D17EEB2369DA9900D5820C /* ApiKeys.swift */; };
 		72D17EEE2369DAFC00D5820C /* CurrencyFakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D17EED2369DAFC00D5820C /* CurrencyFakeResponseData.swift */; };
 		72D17EF02369DB8700D5820C /* CurrencyTestsCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D17EEF2369DB8700D5820C /* CurrencyTestsCase.swift */; };
@@ -77,6 +80,9 @@
 		7284B03A23679A8C0031D8FB /* Weather.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Weather.json; sourceTree = "<group>"; };
 		7284B03C23679DA60031D8FB /* WeatherFakeResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFakeResponseData.swift; sourceTree = "<group>"; };
 		7284B03E2367A2E50031D8FB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		72B068E5237464B5007DE8AE /* Translate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Translate.json; sourceTree = "<group>"; };
+		72B068E8237465EF007DE8AE /* TranslateFakeResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateFakeResponseData.swift; sourceTree = "<group>"; };
+		72B068EA2374666C007DE8AE /* TranslateTestsCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateTestsCase.swift; sourceTree = "<group>"; };
 		72D17EEB2369DA9900D5820C /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		72D17EED2369DAFC00D5820C /* CurrencyFakeResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFakeResponseData.swift; sourceTree = "<group>"; };
 		72D17EEF2369DB8700D5820C /* CurrencyTestsCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTestsCase.swift; sourceTree = "<group>"; };
@@ -230,8 +236,19 @@
 				7222122523686F9A00667FEC /* WeatherTests */,
 				7284B038236798950031D8FB /* UrlSessionFake.swift */,
 				7284B0322367986A0031D8FB /* Info.plist */,
+				72B068E7237464C4007DE8AE /* TranslateTests */,
 			);
 			path = TravelTests;
+			sourceTree = "<group>";
+		};
+		72B068E7237464C4007DE8AE /* TranslateTests */ = {
+			isa = PBXGroup;
+			children = (
+				72B068E5237464B5007DE8AE /* Translate.json */,
+				72B068E8237465EF007DE8AE /* TranslateFakeResponseData.swift */,
+				72B068EA2374666C007DE8AE /* TranslateTestsCase.swift */,
+			);
+			path = TranslateTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +344,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72B068E6237464B5007DE8AE /* Translate.json in Resources */,
 				7222122823686FCE00667FEC /* Currency.json in Resources */,
 				7284B03B23679A8C0031D8FB /* Weather.json in Resources */,
 			);
@@ -362,7 +380,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72B068E9237465EF007DE8AE /* TranslateFakeResponseData.swift in Sources */,
 				72D17EEE2369DAFC00D5820C /* CurrencyFakeResponseData.swift in Sources */,
+				72B068EB2374666C007DE8AE /* TranslateTestsCase.swift in Sources */,
 				7284B03D23679DA60031D8FB /* WeatherFakeResponseData.swift in Sources */,
 				7284B0312367986A0031D8FB /* WeatherTestsCase.swift in Sources */,
 				7284B039236798950031D8FB /* UrlSessionFake.swift in Sources */,
@@ -519,9 +539,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = BGGLL93M78;
 				INFOPLIST_FILE = Travel/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -529,7 +550,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mji.Travel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -538,9 +559,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = BGGLL93M78;
 				INFOPLIST_FILE = Travel/SupportingFiles/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -548,7 +570,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mji.Travel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
