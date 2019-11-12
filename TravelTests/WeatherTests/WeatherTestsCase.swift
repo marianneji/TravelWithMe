@@ -124,6 +124,7 @@ class WeatherTestsCase: XCTestCase {
         weatherManager.getCurrentLocationWeather(latitude: 48.86, longitude: 2.35) { (success, weather) in
             XCTAssertTrue(success)
             XCTAssertNotNil(weather)
+            XCTAssertEqual("Paris", weather?.currentCity)
 
             expectation.fulfill()
         }
