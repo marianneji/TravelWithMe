@@ -41,7 +41,7 @@ class CurrencyViewController: UIViewController {
     }
 }
 //MARK: - CurrencyManagerDelegate
-extension CurrencyViewController: CurrencyManagerDelagate {
+extension CurrencyViewController: CurrencyManagerDelegate {
 
     func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel) {
         dateLabel.text = currency.dateFormatted
@@ -90,7 +90,11 @@ extension CurrencyViewController {
         currencyManager.getCurrencyExchangeRate { (success, currency) in
             self.toggleActivityIndicator(shown: false)
             if success, let currency = currency {
-                self.didUpdateCurrencyRates(self.currencyManager, currency: currency)
+                DispatchQueue.main.async {
+                    [unowned self] in
+                    self.didUpdateCurrencyRates(self.currencyManager, currency: currency)
+                }
+
             } else {
                 self.didFailWithError(message: "We couldn't reach the server, please refresh")
 
