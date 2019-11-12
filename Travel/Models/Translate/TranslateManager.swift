@@ -8,10 +8,10 @@
 
 import Foundation
 
-class TranslateManager {
+class TranslateManager: NSObject {
 
     static let shared = TranslateManager()
-    private init() {}
+    private override init() {}
 
     private var task: URLSessionDataTask?
     private var translateSession = URLSession(configuration: .default)
@@ -26,8 +26,10 @@ class TranslateManager {
     var supportedLanguage = [TranslateModel]()
     var textToTranslate: String?
     var targetLanguageCode: String?
+    var languageCode = [String]()
 
-    private func makeRequest( usingTranslateApi api: TranslateApi, urlParams: [String: String], completion: @escaping (_ results: [String: Any]?) -> Void) {
+
+    func makeRequest(usingTranslateApi api: TranslateApi, urlParams: [String: String], completion: @escaping (_ results: [String: Any]?) -> Void) {
         task?.cancel()
         guard var components = URLComponents(string: api.getUrl()) else { return }
         components.queryItems = [URLQueryItem]()
@@ -111,6 +113,7 @@ class TranslateManager {
                     return
                 }
                 self.supportedLanguage.append(TranslateModel(code: code, name: name))
+                self.languageCode.append(code)
                 completion(true)
             }
         }
@@ -127,7 +130,7 @@ class TranslateManager {
         urlParams["q"] = textToTranslate
         urlParams["format"] = "text"
         urlParams["target"] = targetLanguage
-
+        
         if let sourceCode = sourceLanguageCode {
             urlParams["source"] = sourceCode
         }
@@ -142,7 +145,7 @@ class TranslateManager {
             }
             var allTranslations = [String]()
             for translation in translations {
-                if let translatedText = translation["translatedtext"] as? String {
+                if let translatedText = translation["translatedText"] as? String {
                     allTranslations.append(translatedText)
                 }
             }
