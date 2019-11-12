@@ -10,6 +10,7 @@ import XCTest
 @testable import Travel
 
 class CurrencyTestsCase: XCTestCase {
+
     func testGetCurrencyshouldPostfailedCallbackIfError() {
         let currencyManager = CurrencyManager(currencySession: URLSessionFake(data: nil, response: nil, error: CurrencyFakeResponseData.error))
 
@@ -64,8 +65,6 @@ class CurrencyTestsCase: XCTestCase {
         currencyManager.getCurrencyExchangeRate { (success, currency) in
             XCTAssertTrue(success)
             XCTAssertNotNil(currency)
-            
-
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
