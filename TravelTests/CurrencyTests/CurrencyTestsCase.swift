@@ -63,8 +63,10 @@ class CurrencyTestsCase: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         currencyManager.getCurrencyExchangeRate { (success, currency) in
+            let usd = 1.109914
             XCTAssertTrue(success)
             XCTAssertNotNil(currency)
+            XCTAssertEqual(usd, currency?.dollarRate)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
