@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7200F561237D518500BD5CCC /* TranslateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7200F560237D518500BD5CCC /* TranslateData.swift */; };
 		7222122423685E1C00667FEC /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7222122323685E1C00667FEC /* CurrencyManager.swift */; };
 		7222122823686FCE00667FEC /* Currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 7222122723686FCE00667FEC /* Currency.json */; };
 		7222122A2368764800667FEC /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722212292368764800667FEC /* CurrencyModel.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7200F560237D518500BD5CCC /* TranslateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateData.swift; sourceTree = "<group>"; };
 		7222122323685E1C00667FEC /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 		7222122723686FCE00667FEC /* Currency.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Currency.json; sourceTree = "<group>"; };
 		722212292368764800667FEC /* CurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				722745F223633B2900C3E6C3 /* TranslateApi.swift */,
 				722292522371A9E80026A235 /* TranslateModel.swift */,
 				722292502371A8E80026A235 /* TranslateManager.swift */,
+				7200F560237D518500BD5CCC /* TranslateData.swift */,
 			);
 			path = Translate;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				722745F323633B2900C3E6C3 /* TranslateApi.swift in Sources */,
 				722745E92363383000C3E6C3 /* TranslateViewController.swift in Sources */,
 				722292512371A8E80026A235 /* TranslateManager.swift in Sources */,
+				7200F561237D518500BD5CCC /* TranslateData.swift in Sources */,
 				7284B029236747D60031D8FB /* WeatherData.swift in Sources */,
 				722745F523633B3E00C3E6C3 /* CurrencyData.swift in Sources */,
 				722745D52363326200C3E6C3 /* AppDelegate.swift in Sources */,

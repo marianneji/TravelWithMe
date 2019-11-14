@@ -8,10 +8,10 @@
 
 import Foundation
 
-class TranslateManager: NSObject {
-
+class TranslateManager {
+//MARK: - Singleton
     static let shared = TranslateManager()
-    private override init() {}
+    private init() {}
 
     private var task: URLSessionDataTask?
     private var translateSession = URLSession(configuration: .default)
@@ -29,7 +29,7 @@ class TranslateManager: NSObject {
     var languageCode = [String]()
 
 
-    func makeRequest(usingTranslateApi api: TranslateApi, urlParams: [String: String], completion: @escaping (_ results: [String: Any]?) -> Void) {
+    func makeRequest(usingTranslateApi api: TranslateApi, urlParams: [String: String], completion: @escaping (Bool, _ results: [String: Any]?) -> Void) {
         task?.cancel()
         guard var components = URLComponents(string: api.getUrl()) else { return }
         components.queryItems = [URLQueryItem]()
@@ -44,16 +44,16 @@ class TranslateManager: NSObject {
             task = translateSession.dataTask(with: request) { (results, response, error) in
                 DispatchQueue.main.async {
                     guard error == nil, let results = results else {
-                        completion(nil)
+                        completion(false, nil)
                         return
                     }
                     guard let response = response as? HTTPURLResponse, response.statusCode == 200 || response.statusCode == 201 else {
-                        completion(nil)
+                        completion(false, nil)
                         return
                     }
                     do {
                         if let resultDict = try JSONSerialization.jsonObject(with: results, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String: Any] {
-                            completion(resultDict)
+                            completion(true, resultDict)
                         }
                     } catch {
                         print(error.localizedDescription)
@@ -66,7 +66,7 @@ class TranslateManager: NSObject {
 
     func detectLanguage(forText text: String, completion: @escaping (_ language: String?) -> Void) {
         let urlParams = ["key": apiKey, "q": text]
-        makeRequest(usingTranslateApi: .detectLanguage, urlParams: urlParams) { (results) in
+        makeRequest(usingTranslateApi: .detectLanguage, urlParams: urlParams) { (success, results) in
             guard let results = results else {
                 completion(nil)
                 return
@@ -97,7 +97,7 @@ class TranslateManager: NSObject {
         urlParams["key"] = apiKey
         urlParams["target"] = Locale.current.languageCode ?? "en"
 
-        makeRequest(usingTranslateApi: .supportedLanguage, urlParams: urlParams) { (results) in
+        makeRequest(usingTranslateApi: .supportedLanguage, urlParams: urlParams) { (success, results) in
             guard let results = results else {
                 completion(false)
                 return
@@ -134,7 +134,7 @@ class TranslateManager: NSObject {
         if let sourceCode = sourceLanguageCode {
             urlParams["source"] = sourceCode
         }
-        makeRequest(usingTranslateApi: .translate, urlParams: urlParams) { (results) in
+        makeRequest(usingTranslateApi: .translate, urlParams: urlParams) { (success, results) in
             guard let results = results else {
                 completion(nil)
                 return
