@@ -16,7 +16,15 @@ class TranslateFakeResponseData {
         let data = try! Data(contentsOf: url)
         return data
     }
+
+    static var languagesCorrectData : Data? {
+        let bundle = Bundle(for: TranslateFakeResponseData.self)
+        let url = bundle.url(forResource: "languages", withExtension: "json")!
+        let data = try! Data(contentsOf: url)
+        return data
+    }
     static let translateIncorrectData = "erreur".data(using: .utf8)
+    static let languagesIncorrectData = "erreur".data(using: .utf8)
 
 
     static let responseOk = HTTPURLResponse(url: URL(string: "https://openclassrooms.com")!, statusCode: 200, httpVersion: nil, headerFields: [:])

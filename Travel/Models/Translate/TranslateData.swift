@@ -9,11 +9,11 @@
 import Foundation
 
 struct TranslateData: Codable {
-    let data: DataClass
+    let data: TranslationsDataClass
 }
 
 // MARK: - DataClass
-struct DataClass: Codable {
+struct TranslationsDataClass: Codable {
     let translations: [Translation]
 }
 

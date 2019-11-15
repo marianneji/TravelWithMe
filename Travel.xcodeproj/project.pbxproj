@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7200F561237D518500BD5CCC /* TranslateData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7200F560237D518500BD5CCC /* TranslateData.swift */; };
+		7200F563237D59F400BD5CCC /* SupportedLanguageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7200F562237D59F400BD5CCC /* SupportedLanguageModel.swift */; };
+		7200F567237D6BA200BD5CCC /* languages.json in Resources */ = {isa = PBXBuildFile; fileRef = 7200F566237D6BA200BD5CCC /* languages.json */; };
+		7200F569237D6FB000BD5CCC /* SupportedLanguageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7200F568237D6FB000BD5CCC /* SupportedLanguageData.swift */; };
 		7222122423685E1C00667FEC /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7222122323685E1C00667FEC /* CurrencyManager.swift */; };
 		7222122823686FCE00667FEC /* Currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 7222122723686FCE00667FEC /* Currency.json */; };
 		7222122A2368764800667FEC /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722212292368764800667FEC /* CurrencyModel.swift */; };
@@ -53,6 +56,9 @@
 
 /* Begin PBXFileReference section */
 		7200F560237D518500BD5CCC /* TranslateData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateData.swift; sourceTree = "<group>"; };
+		7200F562237D59F400BD5CCC /* SupportedLanguageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedLanguageModel.swift; sourceTree = "<group>"; };
+		7200F566237D6BA200BD5CCC /* languages.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = languages.json; sourceTree = "<group>"; };
+		7200F568237D6FB000BD5CCC /* SupportedLanguageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedLanguageData.swift; sourceTree = "<group>"; };
 		7222122323685E1C00667FEC /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 		7222122723686FCE00667FEC /* Currency.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Currency.json; sourceTree = "<group>"; };
 		722212292368764800667FEC /* CurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
@@ -218,6 +224,8 @@
 				722292522371A9E80026A235 /* TranslateModel.swift */,
 				722292502371A8E80026A235 /* TranslateManager.swift */,
 				7200F560237D518500BD5CCC /* TranslateData.swift */,
+				7200F562237D59F400BD5CCC /* SupportedLanguageModel.swift */,
+				7200F568237D6FB000BD5CCC /* SupportedLanguageData.swift */,
 			);
 			path = Translate;
 			sourceTree = "<group>";
@@ -250,6 +258,7 @@
 				72B068E5237464B5007DE8AE /* Translate.json */,
 				72B068E8237465EF007DE8AE /* TranslateFakeResponseData.swift */,
 				72B068EA2374666C007DE8AE /* TranslateTestsCase.swift */,
+				7200F566237D6BA200BD5CCC /* languages.json */,
 			);
 			path = TranslateTests;
 			sourceTree = "<group>";
@@ -348,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72B068E6237464B5007DE8AE /* Translate.json in Resources */,
+				7200F567237D6BA200BD5CCC /* languages.json in Resources */,
 				7222122823686FCE00667FEC /* Currency.json in Resources */,
 				7284B03B23679A8C0031D8FB /* Weather.json in Resources */,
 			);
@@ -371,11 +381,13 @@
 				7200F561237D518500BD5CCC /* TranslateData.swift in Sources */,
 				7284B029236747D60031D8FB /* WeatherData.swift in Sources */,
 				722745F523633B3E00C3E6C3 /* CurrencyData.swift in Sources */,
+				7200F569237D6FB000BD5CCC /* SupportedLanguageData.swift in Sources */,
 				722745D52363326200C3E6C3 /* AppDelegate.swift in Sources */,
 				7222122A2368764800667FEC /* CurrencyModel.swift in Sources */,
 				722745EB2363389100C3E6C3 /* CurrencyViewController.swift in Sources */,
 				7222122423685E1C00667FEC /* CurrencyManager.swift in Sources */,
 				722292532371A9E80026A235 /* TranslateModel.swift in Sources */,
+				7200F563237D59F400BD5CCC /* SupportedLanguageModel.swift in Sources */,
 				722745F72363422600C3E6C3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
