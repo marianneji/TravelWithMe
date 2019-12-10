@@ -17,10 +17,24 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var weatherConditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var tempMinLabel: UILabel!
+    @IBOutlet weak var tempMaxLabel: UILabel!
+    @IBOutlet weak var windLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var weatherDescriptionLabel: UILabel!
+
+
+    @IBOutlet weak var allUIStackView: UIStackView!
+    //MARK: - CurrentLocationOutlets
     @IBOutlet weak var currentCityLabel: UILabel!
     @IBOutlet weak var currentWeatherConditionView: UIImageView!
-    
     @IBOutlet weak var currentTempLabel: UILabel!
+    @IBOutlet weak var currentTempMinLabel: UILabel!
+    @IBOutlet weak var currentTempMaxLabel: UILabel!
+    @IBOutlet weak var currentWindLabel: UILabel!
+    @IBOutlet weak var currentHumidityLabel: UILabel!
+    @IBOutlet weak var currentWeatherDescLabel: UILabel!
+
     //MARK: - Properties
     let locationManager = CLLocationManager()
     var weatherManager = WeatherManager.shared
@@ -49,7 +63,7 @@ class WeatherViewController: UIViewController {
     }
 
 
-//MARK: - Actions
+    //MARK: - Actions
     @IBAction func currentLocationPressed(_ sender: UIButton) {
         locationManager.requestLocation()
     }
@@ -63,14 +77,25 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         
-            self.temperatureLabel.text = "\(weather.tempString)°C"
-            self.cityLabel.text = weather.cityName
-            self.weatherConditionImageView.image = UIImage(named: weather.conditionName)
+        self.temperatureLabel.text = "\(weather.tempString)°C"
+        self.cityLabel.text = weather.cityName
+        self.weatherConditionImageView.image = UIImage(named: weather.conditionName)
+        self.tempMinLabel.text = "Min: \(weather.doubleToString(value: weather.tempMin))°C"
+        self.tempMaxLabel.text = "Max: \(weather.doubleToString(value: weather.tempMax))°C"
+        self.windLabel.text = "Wind: \(weather.windSpeed)km/h"
+        self.humidityLabel.text = "Humidity: \(weather.humidity)%"
+        self.weatherDescriptionLabel.text = "\(weather.description)"
+
     }
     func didUpdateCurrentWeather(_ weatherManager: WeatherManager, currentWeather: CurrentWeatherModel) {
         self.currentCityLabel.text = currentWeather.currentCity
         self.currentTempLabel.text = "\(currentWeather.tempString)°C"
         self.currentWeatherConditionView.image = UIImage(named: currentWeather.conditionName)
+        self.currentTempMinLabel.text = "Min: \(currentWeather.doubleToString( currentWeather.currentTempMin))°C"
+        self.currentTempMaxLabel.text = "Max: \(currentWeather.doubleToString( currentWeather.currentTempMax))°C"
+        self.currentWindLabel.text = "Wind: \(currentWeather.currentWindSpeed)km/h"
+        self.currentHumidityLabel.text = "Humidity: \(currentWeather.currentHumidity)%"
+        self.currentWeatherDescLabel.text = "\(currentWeather.currentDescription)"
     }
 
     func didFailWithError(message: String) {
@@ -132,12 +157,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     fileprivate func toggleActivityIndicator(shown: Bool) {
         activityIndicator.isHidden = !shown
-        currentTempLabel.isHidden = shown
-        currentCityLabel.isHidden = shown
-        currentWeatherConditionView.isHidden = shown
-        temperatureLabel.isHidden = shown
-        cityLabel.isHidden = shown
-        weatherConditionImageView.isHidden = shown
+        allUIStackView.isHidden = shown
     }
 }
 
