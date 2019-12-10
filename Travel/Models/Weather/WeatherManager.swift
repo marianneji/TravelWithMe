@@ -102,11 +102,16 @@ class WeatherManager {
             let id = decodeData.weather[0].id
             let name = decodeData.name
             let temp = decodeData.main.temp
+            let humidity = decodeData.main.humidity
+            let tempMin = decodeData.main.temp_min
+            let tempMax = decodeData.main.temp_max
+            let windSpeed = decodeData.wind.speed
+            let description = decodeData.weather[0].description
 
-            let weather = WeatherModel(temperature: temp, condition: id, cityName: name)
+            let weather = WeatherModel(temperature: temp, condition: id, cityName: name, windSpeed: windSpeed, tempMin: tempMin, tempMax: tempMax, humidity: humidity, description: description)
             return weather
         } catch {
-            delegate?.didFailWithError(message: "We didn't get the datas from the server")
+            delegate?.didFailWithError(message: "We didn't get the datas from the server \(error.localizedDescription)")
             return nil
         }
     }
@@ -118,8 +123,12 @@ class WeatherManager {
             let id = decodeData.weather[0].id
             let name = decodeData.name
             let temp = decodeData.main.temp
-
-            let currentWeather = CurrentWeatherModel(currentTemp: temp, currentCity: name, currentConditions: id)
+            let humidity = decodeData.main.humidity
+            let tempMin = decodeData.main.temp_min
+            let tempMax = decodeData.main.temp_max
+            let windSpeed = decodeData.wind.speed
+            let description = decodeData.weather[0].description
+            let currentWeather = CurrentWeatherModel(currentTemp: temp, currentCity: name, currentConditions: id, currentWindSpeed: windSpeed, currentTempMin: tempMin, currentTempMax: tempMax, currentHumidity: humidity, currentDescription: description)
             return currentWeather
         } catch {
             delegate?.didFailWithError(message: "We didn't get the datas from the server")

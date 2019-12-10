@@ -14,6 +14,15 @@ struct WeatherModel {
     var temperature: Double
     var condition: Int
     var cityName: String
+    var windSpeed: Double
+    var tempMin: Double
+    var tempMax: Double
+    var humidity: Int
+    var description: String
+
+    func doubleToString(value: Double) -> String {
+        return String(format: "%.1f", value)
+    }
 
     var tempString: String {
         return String(format: "%.1f", temperature)

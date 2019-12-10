@@ -13,6 +13,15 @@ struct CurrentWeatherModel {
     var currentTemp: Double
     var currentCity: String
     var currentConditions: Int
+    var currentWindSpeed: Double
+    var currentTempMin: Double
+    var currentTempMax: Double
+    var currentHumidity: Int
+    var currentDescription: String
+
+    func doubleToString(_ value: Double) -> String {
+        return String(format: "%.1f", value)
+    }
 
     var tempString: String {
         return String(format: "%.1f", currentTemp)
@@ -22,7 +31,8 @@ struct CurrentWeatherModel {
 
         switch currentConditions {
 
-        case 0...300 : return "tstorm1"
+        case 0...300 :
+            return "tstorm1"
 
         case 301...500 :
             return "light_rain"
@@ -57,6 +67,5 @@ struct CurrentWeatherModel {
         default :
             return "dunno"
         }
-
     }
 }
