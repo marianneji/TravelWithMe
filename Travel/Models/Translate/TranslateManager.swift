@@ -13,7 +13,6 @@ class TranslateManager {
     static var shared = TranslateManager()
 
     private init() {
-        print("coucou")
     }
 
     private var task: URLSessionDataTask?

@@ -8,7 +8,7 @@
 
 import Foundation
 
-// Datas we want to decode from JSON (here the languages list avilables from FR), we have to respect JSON Structure
+// Datas we want to decode from JSON 
 
 // MARK: - TranslationSymbols
 struct SupportedLanguageData: Decodable {
