@@ -14,11 +14,13 @@ class CurrencyModel {
     let date: String
     var dollarRate: Double
 
+
     init(baseCurrency: String, date: String, dollarRate: Double) {
         self.baseCurrency = baseCurrency
         self.date = date
         self.dollarRate = dollarRate
     }
+    var euroRate = 1.0
 
     var dateFormatted: String {
         let dateFormatterGet = DateFormatter()
@@ -28,8 +30,20 @@ class CurrencyModel {
         dateFormatterPrint.dateFormat = "dd MMM, yyyy"
 
         let dateString: NSDate? = dateFormatterGet.date(from: date) as NSDate?
-        print(dateFormatterPrint.string(from: dateString! as Date))
-        return (dateFormatterPrint.string(from: dateString! as Date))
+        guard let dString = dateString else { return "erreur"}
+        print(dateFormatterPrint.string(from: dString as Date))
+        return (dateFormatterPrint.string(from: dString as Date))
+    }
+
+    func convertEuroToDol(euroValue: String) -> String {
+        var result = 0.0
+
+        if let euroDouble = Double(euroValue) {
+            result = euroDouble * dollarRate
+        } else {
+            print("y'a un bug...")
+        }
+        return String(format: "%.2f", result) + "$"
     }
 
     var returnRateValue: String {
