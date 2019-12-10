@@ -17,11 +17,13 @@ class CurrencyViewController: UIViewController {
     @IBOutlet weak var dollarTextField: UITextField!
     @IBOutlet weak var convertButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var allUIStackView: UIStackView!
     //MARK: - Variables
     var dollarRate: Double = 0.0
     var euroRate: Double = 0.0
 
     var currencyManager = CurrencyManager.shared
+    var currencyModel: CurrencyModel?
 //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,15 +68,6 @@ extension CurrencyViewController: UITextFieldDelegate {
         return true
     }
 
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.text != "" {
-            return true
-        } else {
-            textField.placeholder = "Type a value to convert here"
-            return false
-        }
-    }
-
     func textFieldDidBeginEditing(_ textField: UITextField) {
         dollarTextField.text = ""
         euroTextField.text = ""
@@ -94,10 +87,8 @@ extension CurrencyViewController {
                     [unowned self] in
                     self.didUpdateCurrencyRates(self.currencyManager, currency: currency)
                 }
-
             } else {
                 self.didFailWithError(message: "We couldn't reach the server, please refresh")
-
             }
         }
     }
@@ -108,7 +99,7 @@ extension CurrencyViewController {
             if let euroDouble = Double(euro) {
                 print(euroDouble)
                 let result = euroDouble * dollarRate
-                dollarTextField.text = String(format: "%.2f", result) + "$"
+                dollarTextField.text = String(format: "%.2f", result)
                 dollarTextField.backgroundColor = .lightGray
             }
         }
@@ -120,7 +111,7 @@ extension CurrencyViewController {
             if let dolDouble = Double(dol) {
                 print(dolDouble)
                 let result = dolDouble * euroRate
-                euroTextField.text = String(format: "%.2f", result) + "€"
+                euroTextField.text = String(format: "%.2f", result)
                 euroTextField.backgroundColor = .lightGray
             }
         }
@@ -128,9 +119,7 @@ extension CurrencyViewController {
 
     fileprivate func toggleActivityIndicator(shown: Bool) {
         activityIndicator.isHidden = !shown
-        rateBaseDolLabel.isHidden = shown
-        rateBaseEuroLabel.isHidden = shown
-        convertButton.isHidden = shown
-        dateLabel.isHidden = shown
+        allUIStackView.isHidden = shown
+
     }
 }
