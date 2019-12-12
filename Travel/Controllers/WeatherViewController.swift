@@ -80,11 +80,27 @@ extension WeatherViewController: WeatherManagerDelegate {
         self.temperatureLabel.text = "\(weather.tempString)°C"
         self.cityLabel.text = weather.cityName
         self.weatherConditionImageView.image = UIImage(named: weather.conditionName)
+//        guard let tempMin = weather.tempMin else {
+//            return
+//        }
+//        guard let tempMax = weather.tempMax else {
+//            return
+//        }
+//        guard let humidity = weather.humidity else {
+//            return
+//        }
+//        guard let windSpeed = weather.windSpeed else {
+//            return
+//        }
+//        guard let description = weather.description else {
+//            return
+//        }
+
         self.tempMinLabel.text = "Min: \(weather.doubleToString(value: weather.tempMin))°C"
         self.tempMaxLabel.text = "Max: \(weather.doubleToString(value: weather.tempMax))°C"
-        self.windLabel.text = "Wind: \(weather.windSpeed)km/h"
-        self.humidityLabel.text = "Humidity: \(weather.humidity)%"
-        self.weatherDescriptionLabel.text = "\(weather.description)"
+        self.windLabel.text = "Wind: \(weather.windSpeed))km/h"
+        self.humidityLabel.text = "Humidity: \(weather.humidity))%"
+        self.weatherDescriptionLabel.text = "\(description)"
 
     }
     func didUpdateCurrentWeather(_ weatherManager: WeatherManager, currentWeather: CurrentWeatherModel) {
@@ -119,6 +135,7 @@ extension WeatherViewController: UITextFieldDelegate  {
             }
         }
     }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         cityTextField.resignFirstResponder()
         return true

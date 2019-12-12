@@ -19,6 +19,8 @@ struct WeatherModel {
     var tempMax: Double
     var humidity: Int
     var description: String
+    var sunrise: Double
+    var sunset: Double
 
     func doubleToString(value: Double) -> String {
         return String(format: "%.1f", value)
@@ -67,6 +69,5 @@ struct WeatherModel {
         default :
             return "dunno"
         }
-        
     }
 }

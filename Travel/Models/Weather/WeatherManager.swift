@@ -95,6 +95,34 @@ class WeatherManager {
                     task?.resume()
     }
 
+    func getCurrentLocationW(latitude: CLLocationDegrees, longitude: CLLocationDegrees, callback: @escaping (Bool, WeatherModel?) -> Void) {
+        let urlString = "\(WeatherManager.weatherURL)\(apiKey)&lat=\(latitude)&lon=\(longitude)"
+        print("current location \(urlString)")
+       if let url = URL(string: urlString) {
+                    let request = URLRequest(url: url)
+
+                    task = self.weatherSession.dataTask(with: request) { (data, response, error) in
+                        DispatchQueue.main.async {
+                           guard let data = data, error == nil else {
+                                callback(false, nil)
+                                return
+                            }
+                            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                                callback(false, nil)
+                                return
+                            }
+                            guard let weather = self.parseJson(data) else {
+                                callback(false, nil)
+                                return
+                            }
+                            self.delegate?.didUpdateWeather(self, weather: weather)
+                            callback(true, weather)
+                            }
+                        }
+                    }
+                    task?.resume()
+    }
+
     func parseJson(_ weatherData: Data) -> WeatherModel? {
         let decoder = JSONDecoder()
         do {
@@ -107,8 +135,10 @@ class WeatherManager {
             let tempMax = decodeData.main.temp_max
             let windSpeed = decodeData.wind.speed
             let description = decodeData.weather[0].description
+            let sunrise = decodeData.sys.sunrise
+            let sunset = decodeData.sys.sunset
 
-            let weather = WeatherModel(temperature: temp, condition: id, cityName: name, windSpeed: windSpeed, tempMin: tempMin, tempMax: tempMax, humidity: humidity, description: description)
+            let weather = WeatherModel(temperature: temp, condition: id, cityName: name, windSpeed: windSpeed, tempMin: tempMin, tempMax: tempMax, humidity: humidity, description: description, sunrise: sunrise, sunset: sunset)
             return weather
         } catch {
             delegate?.didFailWithError(message: "We didn't get the datas from the server \(error.localizedDescription)")
