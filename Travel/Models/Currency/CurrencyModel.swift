@@ -7,43 +7,39 @@
 //
 
 import Foundation
+import UIKit
 
 class CurrencyModel {
     
-    let baseCurrency: String
     let date: String
     var dollarRate: Double
 
 
-    init(baseCurrency: String, date: String, dollarRate: Double) {
-        self.baseCurrency = baseCurrency
+    init(date: String, dollarRate: Double) {
         self.date = date
         self.dollarRate = dollarRate
     }
-    var euroRate = 1.0
 
-    var dateFormatted: String {
-        let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd"
-
-        let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "dd MMM, yyyy"
-
-        let dateString: NSDate? = dateFormatterGet.date(from: date) as NSDate?
-        guard let dString = dateString else { return "erreur"}
-        print(dateFormatterPrint.string(from: dString as Date))
-        return (dateFormatterPrint.string(from: dString as Date))
+    func convertDolToEuro(dollarValue: String) -> String {
+        let euroRate = 1.0 / dollarRate
+        var result = 0.0
+        let tempString = dollarValue.convertToAmericanDouble()
+        if let dolDouble = Double(tempString) {
+            result = dolDouble * euroRate
+        } else {
+            print("Problème dans la conversion dol euro")
+        }
+        return result.doubleToStringTwoDecimal() + "€"
     }
-
     func convertEuroToDol(euroValue: String) -> String {
         var result = 0.0
-
-        if let euroDouble = Double(euroValue) {
+        let tempString = euroValue.convertToAmericanDouble()
+        if let euroDouble = Double(tempString) {
             result = euroDouble * dollarRate
         } else {
-            print("y'a un bug...")
+            print("y'a un bug dans la conversion euro dol...")
         }
-        return String(format: "%.2f", result) + "$"
+        return result.doubleToStringTwoDecimal() + "$"
     }
 
     var returnRateValue: String {
