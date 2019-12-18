@@ -24,6 +24,17 @@ class DetailWeatherViewController: UIViewController, WeatherManagerDelegate {
 
     var selectedCity: WeatherModel?
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupView()
+    }
+
+    func setupView() {
+        guard let city = selectedCity else { return }
+        self.title = "\(city.cityName)"
+        didUpdateWeather(WeatherManager.shared, weather: city)
+    }
+
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
 
         conditionImageView.image = UIImage(named: weather.conditionName)
@@ -33,23 +44,11 @@ class DetailWeatherViewController: UIViewController, WeatherManagerDelegate {
         tempMaxLabel.text = "Maximum: \(weather.doubleToString(value: weather.tempMax))°C"
         windLabel.text = "Wind Speed: \(weather.windSpeed) Km/h"
         humidityLabel.text = "Humidity: \(weather.humidity)"
-        sunriseLabel.text = "Sunrise: \(weather.sunrise.getDateStringFromUTC())"
-        sunsetLabel.text = "Sunset: \(weather.sunset.getDateStringFromUTC())"
+        let sunrise = weather.localSunrise()
+        sunriseLabel.text = "Sunrise: \(sunrise.getTimeStringFromUTC())"
+        let sunset = weather.localSunset()
+        sunsetLabel.text = "Sunset: \(sunset.getTimeStringFromUTC())"
+        dateLabel.text = "\(weather.dt.getDateStringFromUTC())"
 
-    }
-
-    func didUpdateCurrentWeather(_ weatherManager: WeatherManager, currentWeather: CurrentWeatherModel) {
-
-    }
-
-    func didFailWithError(message: String) {
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        guard let city = selectedCity else { return }
-        didUpdateWeather(WeatherManager.shared, weather: city)
-        self.title = "\(city.cityName)"
     }
 }
