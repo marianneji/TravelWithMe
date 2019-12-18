@@ -8,10 +8,7 @@
 
 import Foundation
 
-protocol CurrencyManagerDelegate {
-    func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel)
-    func didFailWithError(message: String)
-}
+
 
 class CurrencyManager {
     static var shared = CurrencyManager()
@@ -49,12 +46,11 @@ class CurrencyManager {
                         callback(false, nil)
                         return
                     }
-                            let baseCurrency = responseJson.base
                             let date = responseJson.date
                             let dollarRate = responseJson.rates.USD
                     print(dollarRate)
 
-                        let exchangeRate = CurrencyModel(baseCurrency: baseCurrency, date: date, dollarRate: dollarRate)
+                        let exchangeRate = CurrencyModel(date: date, dollarRate: dollarRate)
                         callback(true, exchangeRate)
                 }
             }
