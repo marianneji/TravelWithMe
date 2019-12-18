@@ -11,13 +11,16 @@ import CoreLocation
 
 class WeatherTableViewController: UITableViewController {
 
+
     var weatherList = [WeatherModel]()
     var weatherManager = WeatherManager.shared
     let locationManager = CLLocationManager()
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        addNewYorkCityAndCurrentLocation()
+        addSeveralCities()
+        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
@@ -51,9 +54,9 @@ class WeatherTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherTableViewCell
         let city = weatherList[indexPath.row]
         cell.cityLabel.text = city.cityName
-        cell.tempLabel.text = city.tempString
+        cell.tempLabel.text = city.temperature.doubleToStringOneDecimal()
         cell.conditionImageView.image = UIImage(named: "\(city.conditionName)")
-
+        cell.setupCell()
         return cell
     }
 
@@ -65,15 +68,11 @@ class WeatherTableViewController: UITableViewController {
             DispatchQueue.main.async {
                 WeatherManager.shared.getCity(city: textFieldText) { (success, weather) in
                     if success, let weather = weather {
-
                         self.weatherList.append(weather)
                         self.tableView.reloadData()
 
-                        print("\(self.weatherList.count)... dans la fermeture")
                     } else {
-                        let ac = UIAlertController(title: "Error", message: "impossible d'avoir les données du serveur", preferredStyle: .alert)
-                        ac.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                        self.present(ac, animated: true)
+                        self.didFailWithError(message: "Not possible to get the server")
                     }
                 }
             }
@@ -85,21 +84,53 @@ class WeatherTableViewController: UITableViewController {
         }
         present(alert, animated: true)
     }
+
+        @IBAction func refreshPressed(_ sender: UIBarButtonItem) {
+            weatherList.removeAll()
+            addSeveralCities()
+            locationManager.requestLocation()
+            tableView.reloadData()
+        }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             weatherList.remove(at: indexPath.row)
             tableView.reloadData()
         }
     }
-    fileprivate func addNewYorkCityAndCurrentLocation() {
-        DispatchQueue.main.async {
-            WeatherManager.shared.getCity(city: "new%20york") { (success, weather) in
-                if success, let weather = weather {
-                    self.weatherList.append(weather)
-                    self.tableView.reloadData()
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    fileprivate func addSeveralCities() {
+        let message = "Not possible to get the server, please refresh"
+        let group = DispatchGroup()
+        group.enter()
+        WeatherManager.shared.getCity(city: "paris") { (success, weather) in
+            DispatchQueue.main.async {
+                if success, let paris = weather {
+                    self.weatherList.append(paris)
+
+                } else {
+                    self.didFailWithError(message: message )
                 }
+                group.leave()
             }
         }
+        group.enter()
+        WeatherManager.shared.getCity(city: "new%20york") { (success, weather) in
+            DispatchQueue.main.async {
+                if success, let newyork = weather {
+                    self.weatherList.append(newyork)
+                } else {
+                    self.didFailWithError(message: message)
+                }
+                group.leave()
+            }
+        }
+        group.notify(queue: .main) {
+            self.tableView.reloadData()
+        }
+
     }
 }
 
@@ -110,48 +141,28 @@ extension WeatherTableViewController: CLLocationManagerDelegate {
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
             DispatchQueue.main.async {
-                WeatherManager.shared.getCurrentLocationW(latitude: lat, longitude: lon) { (success, weather) in
+                WeatherManager.shared.getCurrentLocationWeather(latitude: lat, longitude: lon) { (success, weather) in
                     if success, let weather = weather { self.weatherList.append(weather)
                         self.tableView.reloadData()
                     } else {
-
-                        print("il y a un problème de current location")
+                        self.didFailWithError(message: "Not possible to get your current location")
                     }
                 }
             }
-
             locationManager.stopUpdatingLocation()
         }
     }
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("\(error.localizedDescription)")
+        didFailWithError(message: "Not possible to get your current location")
     }
 }
 
-//    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
-//        let cell = WeatherTableViewCell()
-//        cell.cityLabel.text = weather.cityName
-//        cell.tempLabel.text = "\(weather.doubleToString(value: weather.temperature))°C"
-//        cell.conditionImageView.image = UIImage(named: "\(weather.conditionName)")
-//        DispatchQueue.main.async {
-//
-//            self.weatherList.append(weather)
-//        }
-//
-//
-//
-//
-//    }
-//
-//    func didUpdateCurrentWeather(_ weatherManager: WeatherManager, currentWeather: CurrentWeatherModel) {
-//
-//    }
-//
-//    func didFailWithError(message: String) {
-//        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-//        ac.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//        present(ac, animated: true)
-//    }
-//
-//
-//}
+extension WeatherTableViewController: ErrorManagerDelegate {
+
+    func didFailWithError(message: String) {
+        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(ac, animated: true)
+    }
+}
