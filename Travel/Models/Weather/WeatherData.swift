@@ -10,10 +10,12 @@ import Foundation
 
 struct WeatherData: Codable {
     let name: String
+    let timezone: Double
     let main: Main
     let weather: [Weather]
     let wind: Wind
     let sys: Sys
+    let dt: Double
     
 }
 

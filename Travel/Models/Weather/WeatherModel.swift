@@ -21,14 +21,22 @@ struct WeatherModel {
     var description: String
     var sunrise: Double
     var sunset: Double
+    var timeZone: Double
+    let dt: Double
 
     func doubleToString(value: Double) -> String {
         return String(format: "%.1f", value)
     }
 
-    var tempString: String {
-        return String(format: "%.1f", temperature)
+    func localSunrise() -> Double {
+        let returnValue = sunrise + timeZone
+        return returnValue
     }
+    func localSunset() -> Double {
+        let returnValue = sunset + timeZone
+        return returnValue
+    }
+
     //This method turns a condition code into the name of the weather condition image
     var conditionName: String {
         
