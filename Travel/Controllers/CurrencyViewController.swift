@@ -34,10 +34,13 @@ class CurrencyViewController: UIViewController {
 //MARK: - Actions
     @IBAction func convertPressed(_ sender: UIButton) {
         if euroTextField.hasText {
-            convertEuroToDol()
+            dollarTextField.text = currencyModel?.convertEuroToDol(euroValue: euroTextField.text!)
+            dollarTextField.backgroundColor = .lightGray
+           // convertEuroToDol()
             euroTextField.resignFirstResponder()
         } else {
-            convertDolToEuro()
+            euroTextField.text =  currencyModel?.convertDolToEuro(dollarValue: dollarTextField.text!)
+            euroTextField.backgroundColor = .lightGray
             dollarTextField.resignFirstResponder()
         }
     }
@@ -46,17 +49,12 @@ class CurrencyViewController: UIViewController {
 extension CurrencyViewController: CurrencyManagerDelegate {
 
     func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel) {
-        dateLabel.text = currency.dateFormatted
-        rateBaseEuroLabel.text = "1€ = \(currency.returnRateValue)$"
+        dateLabel.text = currency.date.dateFormatted()
+        rateBaseEuroLabel.text = "1€ = \(currency.dollarRate.doubleToStringTwoDecimal())$"
         dollarRate = currency.dollarRate
         euroRate = 1.0 / currency.dollarRate
-        rateBaseDolLabel.text = "1$ = " + String(format: "%.2f", euroRate) + "€"
-    }
-
-    func didFailWithError(message: String) {
-        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(ac, animated: true)
+        rateBaseDolLabel.text = "1$ = " + euroRate.doubleToStringTwoDecimal() + "€"
+        currencyModel = CurrencyModel(date: currency.date.dateFormatted(), dollarRate: dollarRate)
     }
 }
 //MARK: - TextFieldDelegate
@@ -99,7 +97,7 @@ extension CurrencyViewController {
             if let euroDouble = Double(euro) {
                 print(euroDouble)
                 let result = euroDouble * dollarRate
-                dollarTextField.text = String(format: "%.2f", result)
+                dollarTextField.text = result.doubleToStringTwoDecimal()
                 dollarTextField.backgroundColor = .lightGray
             }
         }
@@ -121,5 +119,13 @@ extension CurrencyViewController {
         activityIndicator.isHidden = !shown
         allUIStackView.isHidden = shown
 
+    }
+}
+
+extension CurrencyViewController: ErrorManagerDelegate {
+    func didFailWithError(message: String) {
+        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(ac, animated: true)
     }
 }
