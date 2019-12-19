@@ -16,6 +16,8 @@ class TranslateViewController: UIViewController {
     @IBOutlet weak var languagePickerView: UIPickerView!
     @IBOutlet weak var translateButton: UIButton!
 
+    @IBOutlet weak var outputContainerView: UIView!
+    @IBOutlet weak var inputContainerView: UIView!
     private var pickerViewTranslationLanguages = [String]()
     private var supportedLanguageCode = [String]()
     private var targetLanguageCode: String?
@@ -24,6 +26,8 @@ class TranslateViewController: UIViewController {
         super.viewDidLoad()
         addDoneButtonOnKeyboard()
         fetchSupportedLanguage()
+        setUpView(20)
+
     }
 
 //MARK: - Actions
@@ -119,5 +123,13 @@ extension TranslateViewController {
         guard let target = targetLanguageCode else { return }
         translate(target)
         inputTextView.resignFirstResponder()
+    }
+
+    func setUpView(_ cornerRadius: CGFloat) {
+        translateButton.layer.cornerRadius = cornerRadius
+        inputTextView.layer.cornerRadius = cornerRadius
+        outputTextView.layer.cornerRadius = cornerRadius
+        inputContainerView.layer.cornerRadius = cornerRadius
+        outputContainerView.layer.cornerRadius = cornerRadius
     }
 }

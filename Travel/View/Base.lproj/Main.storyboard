@@ -528,8 +528,10 @@
                     <tabBarItem key="tabBarItem" title="" image="noun_Translation_987" id="Pj1-Uh-oAW"/>
                     <connections>
                         <outlet property="detectedLanguageLabel" destination="ArZ-Hc-SLG" id="Hh2-Gd-jhG"/>
+                        <outlet property="inputContainerView" destination="XUY-3W-cUp" id="tMy-Dj-clS"/>
                         <outlet property="inputTextView" destination="HFZ-tk-dhe" id="rOM-34-nun"/>
                         <outlet property="languagePickerView" destination="hWj-OH-lQF" id="zEF-5O-6is"/>
+                        <outlet property="outputContainerView" destination="DAQ-hV-Nda" id="bTc-Jh-FrI"/>
                         <outlet property="outputTextView" destination="UqW-8B-62s" id="3J8-en-GWL"/>
                         <outlet property="translateButton" destination="Irz-f4-SFc" id="kMl-OL-Hi0"/>
                     </connections>
