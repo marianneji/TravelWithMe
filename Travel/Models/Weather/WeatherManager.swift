@@ -21,7 +21,6 @@ class WeatherManager {
     private let apiKey = Apikeys.valueForAPIKey(named: "weatherApiKey")
 
     var delegate: WeatherManagerDelegate?
-    var errorDelegate: ErrorManagerDelegate?
 
     private var task: URLSessionDataTask?
     private var weatherSession = URLSession(configuration: .default)
@@ -112,7 +111,7 @@ class WeatherManager {
             let weather = WeatherModel(temperature: temp, condition: id, cityName: name, windSpeed: windSpeed, tempMin: tempMin, tempMax: tempMax, humidity: humidity, description: description, sunrise: sunrise, sunset: sunset, timeZone: timezone, dt : dt)
             return weather
         } catch {
-            errorDelegate?.didFailWithError(message: "We didn't get the datas from the server \(error.localizedDescription)")
+           print(error.localizedDescription)
             return nil
         }
     }
