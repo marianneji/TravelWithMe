@@ -20,7 +20,7 @@ class TranslateTestsCase: XCTestCase {
             XCTAssertNil(translation)
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.03)
     }
 
     func testTranslateshouldPostfailedCallbackIfNoData() {
@@ -32,7 +32,7 @@ class TranslateTestsCase: XCTestCase {
             XCTAssertNil(translation)
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.03)
     }
 
     func testTranslateshouldPostfailedCallbackIfIncorrectResponse() {
@@ -44,7 +44,7 @@ class TranslateTestsCase: XCTestCase {
             XCTAssertFalse(success)
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.03)
     }
 
     func testTranslateshouldPostfailedCallbackIfIncorrectData() {
@@ -56,7 +56,7 @@ class TranslateTestsCase: XCTestCase {
             XCTAssertFalse(success)
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.03)
     }
 
     func testTranslateshouldPostSuccessCallbackIfDataAndNoError() {
@@ -70,7 +70,7 @@ class TranslateTestsCase: XCTestCase {
             XCTAssertEqual("Hi cows", translation?.translations[0].translatedText)
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.03)
     }
     func testGetLanguagesShouldPostfailedCallbackIfError() {
             let translateManager = TranslateManager(translateSession: URLSessionFake(data: nil, response: nil, error: TranslateFakeResponseData.error))
@@ -82,7 +82,7 @@ class TranslateTestsCase: XCTestCase {
                 XCTAssertNil(language)
                 expectation.fulfill()
             }
-            wait(for: [expectation], timeout: 0.01)
+            wait(for: [expectation], timeout: 0.03)
         }
 
         func testGetLanguagesShouldPostfailedCallbackIfNoData() {
@@ -95,7 +95,7 @@ class TranslateTestsCase: XCTestCase {
                 XCTAssertNil(language)
                 expectation.fulfill()
             }
-            wait(for: [expectation], timeout: 0.01)
+            wait(for: [expectation], timeout: 0.03)
         }
 
         func testGetLanguagesShouldPostfailedCallbackIfIncorrectResponse() {
@@ -108,7 +108,7 @@ class TranslateTestsCase: XCTestCase {
                 XCTAssertFalse(success)
                 expectation.fulfill()
             }
-            wait(for: [expectation], timeout: 0.01)
+            wait(for: [expectation], timeout: 0.03)
         }
 
         func testGetLanguagesShouldPostfailedCallbackIfIncorrectData() {
@@ -121,7 +121,7 @@ class TranslateTestsCase: XCTestCase {
                 XCTAssertFalse(success)
                 expectation.fulfill()
             }
-            wait(for: [expectation], timeout: 0.01)
+            wait(for: [expectation], timeout: 0.03)
         }
 
         func testGetLanguagesShouldPostSuccessCallbackIfDataAndNoError() {
@@ -139,7 +139,7 @@ class TranslateTestsCase: XCTestCase {
                 
                 expectation.fulfill()
             }
-            wait(for: [expectation], timeout: 0.01)
+            wait(for: [expectation], timeout: 0.03)
         }
 
 }
