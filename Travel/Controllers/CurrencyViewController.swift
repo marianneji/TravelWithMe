@@ -9,7 +9,7 @@
 import UIKit
 
 class CurrencyViewController: UIViewController {
-//MARK: - Outlets
+    //MARK: - Outlets
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var rateBaseEuroLabel: UILabel!
     @IBOutlet weak var rateBaseDolLabel: UILabel!
@@ -18,28 +18,26 @@ class CurrencyViewController: UIViewController {
     @IBOutlet weak var convertButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var allUIStackView: UIStackView!
-    //MARK: - Variables
-    var dollarRate: Double = 0.0
-    var euroRate: Double = 0.0
 
+    //MARK: - Variables
     var currencyManager = CurrencyManager.shared
     var currencyModel: CurrencyModel?
-//MARK: - viewDidLoad
+
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        euroTextField.delegate = self
-        dollarTextField.delegate = self
         updateCurrency()
     }
-//MARK: - Actions
+    //MARK: - Actions
     @IBAction func convertPressed(_ sender: UIButton) {
         if euroTextField.hasText {
-            dollarTextField.text = currencyModel?.convertEuroToDol(euroValue: euroTextField.text!)
+            guard let euroText = euroTextField.text else { return }
+            dollarTextField.text = currencyModel?.convertEuroToDol(euroValue: euroText)
             dollarTextField.backgroundColor = .lightGray
-           // convertEuroToDol()
             euroTextField.resignFirstResponder()
         } else {
-            euroTextField.text =  currencyModel?.convertDolToEuro(dollarValue: dollarTextField.text!)
+            guard let dolText = dollarTextField.text else { return }
+            euroTextField.text =  currencyModel?.convertDolToEuro(dollarValue: dolText)
             euroTextField.backgroundColor = .lightGray
             dollarTextField.resignFirstResponder()
         }
@@ -49,12 +47,11 @@ class CurrencyViewController: UIViewController {
 extension CurrencyViewController: CurrencyManagerDelegate {
 
     func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel) {
+        currencyModel = CurrencyModel(date: currency.date.dateFormatted(), dollarRate: currency.dollarRate, euroRate: currency.euroRate)
         dateLabel.text = currency.date.dateFormatted()
         rateBaseEuroLabel.text = "1€ = \(currency.dollarRate.doubleToStringTwoDecimal())$"
-        dollarRate = currency.dollarRate
-        euroRate = 1.0 / currency.dollarRate
-        rateBaseDolLabel.text = "1$ = " + euroRate.doubleToStringTwoDecimal() + "€"
-        currencyModel = CurrencyModel(date: currency.date.dateFormatted(), dollarRate: dollarRate)
+        rateBaseDolLabel.text = "1$ = " + currency.euroRate.doubleToStringTwoDecimal() + "€"
+
     }
 }
 //MARK: - TextFieldDelegate
@@ -91,30 +88,6 @@ extension CurrencyViewController {
         }
     }
 
-    fileprivate func convertEuroToDol() {
-        if let euro = euroTextField.text {
-            print(euro)
-            if let euroDouble = Double(euro) {
-                print(euroDouble)
-                let result = euroDouble * dollarRate
-                dollarTextField.text = result.doubleToStringTwoDecimal()
-                dollarTextField.backgroundColor = .lightGray
-            }
-        }
-    }
-
-    fileprivate func convertDolToEuro() {
-        if let dol = dollarTextField.text {
-            print(dol)
-            if let dolDouble = Double(dol) {
-                print(dolDouble)
-                let result = dolDouble * euroRate
-                euroTextField.text = String(format: "%.2f", result)
-                euroTextField.backgroundColor = .lightGray
-            }
-        }
-    }
-
     fileprivate func toggleActivityIndicator(shown: Bool) {
         activityIndicator.isHidden = !shown
         allUIStackView.isHidden = shown
@@ -122,10 +95,3 @@ extension CurrencyViewController {
     }
 }
 
-extension CurrencyViewController: ErrorManagerDelegate {
-    func didFailWithError(message: String) {
-        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(ac, animated: true)
-    }
-}
