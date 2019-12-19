@@ -61,6 +61,7 @@ extension String {
         }
         return stringResult
     }
+
     func dateFormatted() -> String {
         let dateFormatterGet = DateFormatter()
         dateFormatterGet.dateFormat = "yyyy-MM-dd"
@@ -74,11 +75,11 @@ extension String {
         return (dateFormatterPrint.string(from: dString as Date))
     }
 }
-//
-//extension UIViewController {
-//    func didFailWithError(message: String) {
-//        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-//        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-//        self.present(ac, animated: true)
-//    }
-//}
+
+extension UIViewController {
+    func didFailWithError(message: String) {
+        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        self.present(ac, animated: true)
+    }
+}

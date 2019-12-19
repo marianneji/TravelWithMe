@@ -16,6 +16,3 @@ protocol CurrencyManagerDelegate {
     func didUpdateCurrencyRates(_ currencyManager: CurrencyManager, currency: CurrencyModel)
 }
 
-protocol ErrorManagerDelegate {
-    func didFailWithError(message: String)
-}
