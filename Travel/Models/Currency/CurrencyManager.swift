@@ -50,7 +50,7 @@ class CurrencyManager {
                             let dollarRate = responseJson.rates.USD
                     print(dollarRate)
 
-                        let exchangeRate = CurrencyModel(date: date, dollarRate: dollarRate)
+                    let exchangeRate = CurrencyModel(date: date, dollarRate: dollarRate, euroRate: 0.0)
                         callback(true, exchangeRate)
                 }
             }
