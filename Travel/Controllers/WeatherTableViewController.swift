@@ -11,39 +11,27 @@ import CoreLocation
 
 class WeatherTableViewController: UITableViewController {
 
-
     var weatherList = [WeatherModel]()
     var weatherManager = WeatherManager.shared
     let locationManager = CLLocationManager()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         addSeveralCities()
-        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
         tableView.reloadData()
     }
 
-    // MARK: - Table view data source
-
+    // MARK: - TableView Delegate and DataSource
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         print("\(weatherList.count) nombre d'élément dans weather list")
         return weatherList.count
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let destinationVC = segue.destination as? DetailWeatherViewController else { return }
-
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        destinationVC.selectedCity = weatherList[indexPath.row]
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -54,12 +42,29 @@ class WeatherTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath) as! WeatherTableViewCell
         let city = weatherList[indexPath.row]
         cell.cityLabel.text = city.cityName
-        cell.tempLabel.text = city.temperature.doubleToStringOneDecimal()
+        cell.tempLabel.text = "\(city.temperature.doubleToStringOneDecimal())°C"
         cell.conditionImageView.image = UIImage(named: "\(city.conditionName)")
         cell.setupCell()
         return cell
     }
 
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            weatherList.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+//MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let destinationVC = segue.destination as? DetailWeatherViewController else { return }
+        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+        destinationVC.selectedCity = weatherList[indexPath.row]
+    }
+//MARK: - Actions
     @IBAction func addPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add a new city", message: "", preferredStyle: .alert)
@@ -72,7 +77,7 @@ class WeatherTableViewController: UITableViewController {
                         self.tableView.reloadData()
 
                     } else {
-                        self.didFailWithError(message: "Not possible to get the server")
+                        self.didFailWithError(message: "Unable to reach the server. Check your internet connection")
                     }
                 }
             }
@@ -91,32 +96,20 @@ class WeatherTableViewController: UITableViewController {
             locationManager.requestLocation()
             tableView.reloadData()
         }
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            weatherList.remove(at: indexPath.row)
-            tableView.reloadData()
-        }
-    }
-
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+    
     fileprivate func addSeveralCities() {
-        let message = "Not possible to get the server, please refresh"
-        let group = DispatchGroup()
-        group.enter()
+        let message = "Not possible to get the server. Check your internet connection and refresh"
+
         WeatherManager.shared.getCity(city: "paris") { (success, weather) in
             DispatchQueue.main.async {
                 if success, let paris = weather {
                     self.weatherList.append(paris)
 
                 } else {
-                    self.didFailWithError(message: message )
+                    self.didFailWithError(message: message)
                 }
-                group.leave()
             }
         }
-        group.enter()
         WeatherManager.shared.getCity(city: "new%20york") { (success, weather) in
             DispatchQueue.main.async {
                 if success, let newyork = weather {
@@ -124,16 +117,11 @@ class WeatherTableViewController: UITableViewController {
                 } else {
                     self.didFailWithError(message: message)
                 }
-                group.leave()
             }
         }
-        group.notify(queue: .main) {
-            self.tableView.reloadData()
-        }
-
     }
 }
-
+//MARK: - LocationManagerDelegate
 extension WeatherTableViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -155,14 +143,5 @@ extension WeatherTableViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         didFailWithError(message: "Not possible to get your current location")
-    }
-}
-
-extension WeatherTableViewController: ErrorManagerDelegate {
-
-    func didFailWithError(message: String) {
-        let ac = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(ac, animated: true)
     }
 }
