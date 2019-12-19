@@ -24,10 +24,6 @@ struct WeatherModel {
     var timeZone: Double
     let dt: Double
 
-    func doubleToString(value: Double) -> String {
-        return String(format: "%.1f", value)
-    }
-
     func localSunrise() -> Double {
         let returnValue = sunrise + timeZone
         return returnValue
@@ -42,7 +38,8 @@ struct WeatherModel {
         
         switch condition {
             
-        case 0...300 : return "tstorm1"
+        case 0...300 :
+            return "tstorm1"
             
         case 301...500 :
             return "light_rain"
@@ -65,7 +62,7 @@ struct WeatherModel {
         case 801...804 :
             return "cloudy2"
             
-        case 900...903, 905...1000  :
+        case 900...903, 905...1000 :
             return "tstorm3"
             
         case 903 :
