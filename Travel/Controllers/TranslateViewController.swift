@@ -8,17 +8,13 @@
 
 import UIKit
 
-class TranslateViewController: UIViewController,  UITextViewDelegate, UIPickerViewDataSource {
-
-
+class TranslateViewController: UIViewController {
 
     @IBOutlet weak var detectedLanguageLabel: UILabel!
     @IBOutlet weak var inputTextView: UITextView!
     @IBOutlet weak var outputTextView: UITextView!
     @IBOutlet weak var languagePickerView: UIPickerView!
     @IBOutlet weak var translateButton: UIButton!
-    @IBOutlet weak var bottomInputTextViewConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomOutputTextViewConstraint: NSLayoutConstraint!
 
     private var pickerViewTranslationLanguages = [String]()
     private var supportedLanguageCode = [String]()
@@ -26,45 +22,25 @@ class TranslateViewController: UIViewController,  UITextViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inputTextView.delegate = self
-        outputTextView.delegate = self
-        languagePickerView.dataSource = self
-        languagePickerView.delegate = self
         addDoneButtonOnKeyboard()
         fetchSupportedLanguage()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        outputTextView.text = "Press translate to see your translation here"
-    }
-
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        inputTextView.text = ""
-        outputTextView.text = ""
-    }
-
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if inputTextView.text != "" {
-            inputTextView.resignFirstResponder()
-        } else {
-            inputTextView.text = "Enter your word here"
-        }
-    }
-
+//MARK: - Actions
     @IBAction func translatePressed(_ sender: UIButton) {
-        guard let target = targetLanguageCode else {
-            print("encore une erreur pfffff...")
-            return
-        }
+        guard let target = targetLanguageCode else { return }
+        translate(target)
+    }
+
+    fileprivate func translate(_ target: String) {
         TranslateManager.shared.translate(translateLanguage: target, textToTranslate: inputTextView.text) { (success, data) in
             if success, let data = data {
                 for translation in data.translations {
                     self.outputTextView.text = translation.translatedText
+                    self.detectedLanguageLabel.text = "Detected language: \(translation.detectedSourceLanguage)"
                 }
             } else {
-                print("Une autre erreur....")
+                self.didFailWithError(message: "Unable to reach the server. Check your internet connection")
             }
         }
     }
@@ -83,12 +59,50 @@ class TranslateViewController: UIViewController,  UITextViewDelegate, UIPickerVi
                         self.targetLanguageCode = "en"
                     }
                 }
-
             } else {
-                print("Il y a un bug... trouve le!!")
+                self.didFailWithError(message: "Unable to reach the server. Check your internet connection")
             }
         }
     }
+}
+//MARK: - PickerViewDelegate
+extension TranslateViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerViewTranslationLanguages.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerViewTranslationLanguages[row]
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        inputTextView.resignFirstResponder()
+        targetLanguageCode = supportedLanguageCode[row]
+    }
+}
+//MARK: - TextViewDelegate
+extension TranslateViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        inputTextView.text = ""
+        outputTextView.text = ""
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if inputTextView.text != "" {
+            inputTextView.resignFirstResponder()
+        } else {
+            inputTextView.text = "Enter your word here"
+        }
+    }
+}
+//MARK: - DoneButton
+extension TranslateViewController {
 
     func addDoneButtonOnKeyboard(){
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -100,28 +114,10 @@ class TranslateViewController: UIViewController,  UITextViewDelegate, UIPickerVi
         doneToolbar.sizeToFit()
         inputTextView.inputAccessoryView = doneToolbar
     }
-    @objc func doneButtonAction(){
+
+    @objc func doneButtonAction() {
+        guard let target = targetLanguageCode else { return }
+        translate(target)
         inputTextView.resignFirstResponder()
     }
-}
-//MARK: - UIPICKERVIEWDELEGATE
-extension TranslateViewController: UIPickerViewDelegate {
-
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerViewTranslationLanguages.count
-       }
-
-       func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-           return pickerViewTranslationLanguages[row]
-       }
-
-       func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-           inputTextView.resignFirstResponder()
-        targetLanguageCode = supportedLanguageCode[row]
-           print("\(supportedLanguageCode[row]) = \(row)")
-       }
 }
