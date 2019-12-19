@@ -15,7 +15,7 @@ class CurrencyModelTestsCase: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        currency = CurrencyModel(date: "2019-10-28", dollarRate: 1.109914)
+        currency = CurrencyModel(date: "2019-10-28", dollarRate: 1.109914, euroRate: 0.0 )
     }
 
     func testWhenCallConvertDolToEuro() {
