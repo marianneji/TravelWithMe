@@ -39,9 +39,9 @@ class DetailWeatherViewController: UIViewController, WeatherManagerDelegate {
 
         conditionImageView.image = UIImage(named: weather.conditionName)
         descriptionLabel.text = weather.description
-        tempLabel.text = "Temperature: \(weather.doubleToString(value: weather.temperature))°C"
-        tempMinLabel.text = "Minimum: \(weather.doubleToString(value: weather.tempMin))°C"
-        tempMaxLabel.text = "Maximum: \(weather.doubleToString(value: weather.tempMax))°C"
+        tempLabel.text = "Temperature: \(weather.temperature.doubleToStringOneDecimal())°C"
+        tempMinLabel.text = "Minimum: \(weather.tempMin.doubleToStringOneDecimal())°C"
+        tempMaxLabel.text = "Maximum: \(weather.tempMax.doubleToStringOneDecimal())°C"
         windLabel.text = "Wind Speed: \(weather.windSpeed) Km/h"
         humidityLabel.text = "Humidity: \(weather.humidity)"
         let sunrise = weather.localSunrise()
